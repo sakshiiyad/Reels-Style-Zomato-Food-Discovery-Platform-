@@ -1,0 +1,39 @@
+/* src/styles/theme.css */
+:root {
+    --bg-color: #f7f7f7;
+    --text-color: #212121;
+    --primary-color: #ef4f5f;
+    --primary-hover: #e03f4f;
+    --input-bg: #ffffff;
+    --input-border: #e0e0e0;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --text-muted: #757575;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #121212;
+        --text-color: #f5f5f5;
+        --primary-color: #ff5a6a;
+        --primary-hover: #ff7583;
+        --input-bg: #1e1e1e;
+        --input-border: #333333;
+        --card-bg: #1a1a1a;
+        --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --text-muted: #a0a0a0;
+    }
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
