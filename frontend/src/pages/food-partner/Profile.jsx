@@ -20,7 +20,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.get('http://localhost:5000/api/auth/foodpartner/logout', { withCredentials: true });
+            await axios.get('/api/auth/foodpartner/logout', { withCredentials: true });
             localStorage.removeItem('role');
             localStorage.removeItem('partnerId');
             toast.success("Logged out successfully");
@@ -34,7 +34,7 @@ const Profile = () => {
     // Import Cart tools
     const { addToCart, cart } = useCart();
 
-    const API_URL = `http://localhost:5000/api/foodPartner/${id}`;
+    const API_URL = `/api/foodPartner/${id}`;
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -65,7 +65,7 @@ const Profile = () => {
         if (!window.confirm("Are you sure you want to delete this video?")) return;
 
         try {
-            await axios.delete(`http://localhost:5000/api/food/${videoId}`, {
+            await axios.delete(`/api/food/${videoId}`, {
                 withCredentials: true
             });
             setVideos(videos.filter(v => (v._id || v.id) !== videoId));
@@ -80,7 +80,7 @@ const Profile = () => {
         e.preventDefault();
         try {
             // Assume there's an endpoint to update profile
-            const response = await axios.put(`http://localhost:5000/api/foodPartner/${id}`, editData, {
+            const response = await axios.put(`/api/foodPartner/${id}`, editData, {
                 withCredentials: true
             });
             setProfile({ ...profile, ...editData });
@@ -279,7 +279,7 @@ const Profile = () => {
                                     </button>
                                     <button className="modal-add-to-cart-btn" onClick={async () => {
                                         try {
-                                            const response = await axios.post("http://localhost:5000/api/food/save", { foodId: selectedReel._id || selectedReel.id }, { withCredentials: true });
+                                            const response = await axios.post("/api/food/save", { foodId: selectedReel._id || selectedReel.id }, { withCredentials: true });
                                             if (response.data.message.includes("unsaved")) {
                                                 alert("Removed from saved reels");
                                             } else {

@@ -12,7 +12,7 @@ const VideoReel = ({ reel }) => {
 
     const handleLike = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/food/like", { foodId: reel._id }, { withCredentials: true });
+            const response = await axios.post("/api/food/like", { foodId: reel._id }, { withCredentials: true });
             if (response.data.message.includes("unliked")) {
                 setLikesCount(prev => Math.max(0, prev - 1));
                 setIsLiked(false);
@@ -32,7 +32,7 @@ const VideoReel = ({ reel }) => {
 
     const handleSave = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/food/save", { foodId: reel._id }, { withCredentials: true });
+            const response = await axios.post("/api/food/save", { foodId: reel._id }, { withCredentials: true });
             if (response.data.message.includes("unsaved")) {
                 setSavesCount(prev => Math.max(0, prev - 1));
                 setIsSaved(false);
@@ -142,8 +142,8 @@ const Home = () => {
         try {
             // Determine the logout endpoint based on role
             const endpoint = userRole === 'partner'
-                ? 'http://localhost:5000/api/auth/foodpartner/logout'
-                : 'http://localhost:5000/api/auth/user/logout';
+                ? '/api/auth/foodpartner/logout'
+                : '/api/auth/user/logout';
 
             await axios.get(endpoint, { withCredentials: true });
             localStorage.removeItem('role');
@@ -159,7 +159,7 @@ const Home = () => {
     useEffect(() => {
         const fetchFoodItems = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/food", {
+                const response = await axios.get("/api/food", {
                     withCredentials: true
                 });
 

@@ -12,7 +12,7 @@ const VideoReel = ({ reel }) => {
 
     const handleLike = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/food/like", { foodId: reel._id }, { withCredentials: true });
+            const response = await axios.post("/api/food/like", { foodId: reel._id }, { withCredentials: true });
             if (response.data.message.includes("unliked")) {
                 setLikesCount(prev => Math.max(0, prev - 1));
                 setIsLiked(false);
@@ -32,7 +32,7 @@ const VideoReel = ({ reel }) => {
 
     const handleSave = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/food/save", { foodId: reel._id }, { withCredentials: true });
+            const response = await axios.post("/api/food/save", { foodId: reel._id }, { withCredentials: true });
             if (response.data.message.includes("unsaved")) {
                 setSavesCount(prev => Math.max(0, prev - 1));
                 setIsSaved(false);
@@ -136,7 +136,7 @@ const Saved = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.get('http://localhost:5000/api/auth/user/logout', { withCredentials: true });
+            await axios.get('/api/auth/user/logout', { withCredentials: true });
             localStorage.removeItem('role');
             toast.success("Logged out successfully");
             window.location.href = '/login';
@@ -149,7 +149,7 @@ const Saved = () => {
     useEffect(() => {
         const fetchSavedItems = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/food/saved", {
+                const response = await axios.get("/api/food/saved", {
                     withCredentials: true
                 });
 

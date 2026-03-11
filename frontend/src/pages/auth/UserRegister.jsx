@@ -21,7 +21,7 @@ const UserRegister = () => {
         }))
 
     }
-    const API_URL = `http://localhost:5000/api/auth/user/register`;
+    const API_URL = `/api/auth/user/register`;
     const handleSubmit = async (e) => {
         e.preventDefault();
         const name = form.Name

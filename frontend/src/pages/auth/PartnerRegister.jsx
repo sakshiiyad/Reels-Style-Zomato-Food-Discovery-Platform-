@@ -20,7 +20,7 @@ const PartnerRegister = () => {
         }));
     };
 
-    const API_URL = "http://localhost:5000/api/auth/foodpartner/register";
+    const API_URL = "/api/auth/foodpartner/register";
 
     const handleSubmit = async (e) => {
         e.preventDefault();

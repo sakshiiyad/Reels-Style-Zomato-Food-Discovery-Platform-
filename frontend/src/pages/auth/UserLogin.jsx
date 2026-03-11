@@ -23,7 +23,7 @@ const UserLogin = () => {
         ))
 
     }
-    const API_URL = `http://localhost:5000/api/auth/user/login`;
+    const API_URL = `/api/auth/user/login`;
     const handleSubmit = async (e) => {
         e.preventDefault();
         //frontend side validation
