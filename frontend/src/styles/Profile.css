@@ -1,0 +1,578 @@
+:root {
+    --bg-color-alt: var(--bg-color);
+    --card-bg-light: var(--card-bg);
+    --text-primary: var(--text-color);
+    --text-secondary: var(--text-muted);
+    --theme-primary: var(--primary-color);
+    --theme-primary-light: rgba(239, 79, 95, 0.1);
+    --border-soft: var(--input-border);
+}
+
+.profile-wrapper {
+    background-color: var(--bg-color-alt);
+    min-height: 100vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 80px;
+    /* Space for the bottom nav var */
+}
+
+/* Profile Header Block */
+.profile-header-card {
+    background-color: var(--card-bg-light);
+    border-radius: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 60px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.profile-avatar-wrapper {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--theme-primary), #f97316);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    background-color: #fff;
+}
+
+.profile-details {
+    margin-bottom: 32px;
+}
+
+.restaurant-name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+}
+
+.restaurant-address {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Stats Section */
+.profile-stats-container {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--bg-color-alt);
+    padding: 20px 28px;
+    border-radius: 16px;
+    border: 1px solid var(--border-soft);
+    min-width: 240px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.stat-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meals-icon {
+    background-color: var(--theme-primary-light);
+    color: var(--theme-primary);
+}
+
+.customers-icon {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.stat-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* Reels Section */
+.reels-section {
+    background-color: var(--card-bg-light);
+    border-radius: 0;
+    padding: 40px;
+    box-shadow: none;
+    border: none;
+    flex-grow: 1;
+}
+
+.reels-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+    padding-left: 8px;
+}
+
+.delete-header-text {
+    font-size: 1.1rem;
+    color: var(--theme-primary);
+    font-weight: 600;
+}
+
+.reels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.reel-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #000;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.reel-card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.reel-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.reel-card:hover .reel-thumbnail {
+    opacity: 0.6;
+}
+
+/* Overlay for play icon and stats */
+.reel-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0) 100%);
+}
+
+.play-icon-container {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+}
+
+.reel-card:hover .play-icon-container {
+    transform: scale(1.15);
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.play-icon {
+    width: 28px;
+    height: 28px;
+    color: white;
+    margin-left: 4px;
+}
+
+/* Views at the bottom */
+.reel-stats {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.view-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-wrapper {
+        padding: 0;
+    }
+
+    .profile-header-card {
+        padding: 40px 16px 24px;
+        border-radius: 0;
+    }
+
+    .reels-section {
+        padding: 24px 16px;
+        border-radius: 0;
+    }
+
+    .profile-avatar-wrapper {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile-details {
+        margin-bottom: 24px;
+    }
+
+    .restaurant-name {
+        font-size: 1.6rem;
+    }
+
+    .restaurant-address {
+        font-size: 0.95rem;
+    }
+
+    .profile-stats-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .stat-box {
+        width: 100%;
+        min-width: unset;
+        padding: 16px 20px;
+        border-radius: 12px;
+    }
+
+    .reels-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .play-icon-container {
+        width: 48px;
+        height: 48px;
+    }
+
+    .play-icon {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Edit Profile Styles */
+.edit-profile-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-left: 12px;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+    vertical-align: middle;
+}
+
+.edit-profile-btn:hover {
+    background-color: var(--theme-primary-light);
+    color: var(--theme-primary);
+}
+
+.edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-soft);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-input:focus {
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 0 3px var(--theme-primary-light);
+}
+
+.edit-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.save-btn {
+    background-color: var(--theme-primary);
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-soft);
+}
+
+.cancel-btn:hover {
+    background-color: var(--border-soft);
+}
+
+/* Delete Reel Styles */
+.delete-reel-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgba(239, 68, 68, 0.85);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    z-index: 10;
+}
+
+.delete-reel-btn:hover {
+    background-color: rgba(239, 68, 68, 1);
+    transform: scale(1.1);
+}
+
+.reel-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.no-videos {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 0;
+}
+
+/* Modal Styling */
+.reel-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.reel-modal-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: modalPop 0.3s ease-out forwards;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: var(--primary-color);
+}
+
+.modal-video-container {
+    width: 100%;
+    height: 60vh;
+    background: #000;
+    display: flex;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow: hidden;
+}
+
+.modal-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-details {
+    padding: 20px;
+}
+
+.modal-food-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.modal-food-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.modal-food-description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.modal-add-to-cart-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
+}
+
+.modal-add-to-cart-btn:hover {
+    background-color: #c9303c;
+    transform: translateY(-2px);
+}
+
+.modal-add-to-cart-btn:active {
+    transform: translateY(0);
+}

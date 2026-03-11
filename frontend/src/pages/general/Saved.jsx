@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import '../../styles/home-reels.css';
+
 const VideoReel = ({ reel }) => {
     const videoRef = useRef(null);
     const [likesCount, setLikesCount] = useState(reel.likecount || 0);
@@ -97,7 +97,6 @@ const VideoReel = ({ reel }) => {
                 loop
                 muted
                 playsInline
-            // removed generic 'autoPlay' attribute because the Observer now securely handles play state
             />
 
             {/* Right side interactive actions */}
@@ -131,25 +130,16 @@ const VideoReel = ({ reel }) => {
     );
 };
 
-const Home = () => {
+const Saved = () => {
     const [reels, setReels] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-    const role = localStorage.getItem('role') || 'user'; // default to user if not set
-    const userRole = localStorage.getItem('role');
 
     const handleLogout = async () => {
         try {
-            // Determine the logout endpoint based on role
-            const endpoint = userRole === 'partner'
-                ? 'http://localhost:5000/api/auth/foodpartner/logout'
-                : 'http://localhost:5000/api/auth/user/logout';
-
-            await axios.get(endpoint, { withCredentials: true });
+            await axios.get('http://localhost:5000/api/auth/user/logout', { withCredentials: true });
             localStorage.removeItem('role');
-            localStorage.removeItem('partnerId');
             toast.success("Logged out successfully");
-            navigate("/login");
+            window.location.href = '/login';
         } catch (error) {
             console.error("Logout error", error);
             toast.error("Failed to logout");
@@ -157,21 +147,21 @@ const Home = () => {
     };
 
     useEffect(() => {
-        const fetchFoodItems = async () => {
+        const fetchSavedItems = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/food", {
+                const response = await axios.get("http://localhost:5000/api/food/saved", {
                     withCredentials: true
                 });
 
                 if (response.data.success) {
                     setReels(response.data.foodItems);
                 } else {
-                    toast.error("Failed to fetch food videos");
+                    toast.error("Failed to fetch saved videos");
                 }
             } catch (error) {
                 console.error("Error fetching reels:", error);
                 if (error.response?.status === 401) {
-                    toast.error("Please log in to see videos");
+                    toast.error("Please log in to see saved videos");
                 } else {
                     toast.error("An error occurred while loading videos");
                 }
@@ -180,18 +170,20 @@ const Home = () => {
             }
         };
 
-        fetchFoodItems();
+        fetchSavedItems();
     }, []);
 
     if (loading) {
-        return <div style={{ color: "white", padding: "20px", textAlign: "center", backgroundColor: "#111", minHeight: "100vh" }}>Loading mouth-watering videos...</div>;
+        return <div style={{ color: "white", padding: "20px", textAlign: "center", backgroundColor: "#111", minHeight: "100vh" }}>Loading saved videos...</div>;
     }
 
     return (
         <div className="app-container">
             <div className="reels-container">
                 {reels.length === 0 ? (
-                    <div style={{ color: "white", padding: "20px", textAlign: "center", backgroundColor: "#111", minHeight: "100vh" }}>No videos found. Check back later!</div>
+                    <div style={{ color: "white", padding: "20px", textAlign: "center", backgroundColor: "#111", minHeight: "100vh", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h2>No saved reels yet. Start exploring and save your favorites!</h2>
+                    </div>
                 ) : (
                     reels.map((reel) => (
                         <VideoReel key={reel._id} reel={reel} />
@@ -201,58 +193,25 @@ const Home = () => {
 
             {/* Bottom Navigation Bar */}
             <div className="bottom-nav-bar">
-                <div className="nav-item active" onClick={() => navigate('/home')}>
+                <div className="nav-item" onClick={() => window.location.href = '/home'}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                     <span>Home</span>
                 </div>
-                {role === 'partner' ? (
-                    <>
-                        <div className="nav-item" onClick={() => navigate('/create-food')}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            <span>Upload</span>
-                        </div>
-                        <div className="nav-item" onClick={() => {
-                            const partnerId = localStorage.getItem('partnerId');
-                            if (partnerId) navigate(`/partner/${partnerId}`);
-                            else {
-                                toast.error("Profile ID not found. Please login again.");
-                                navigate('/login');
-                            }
-                        }}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span>Profile</span>
-                        </div>
-                        <div className="nav-item" onClick={handleLogout}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
-                            </svg>
-                            <span>Logout</span>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="nav-item" onClick={() => navigate('/saved')}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            <span>Saved</span>
-                        </div>
-                        <div className="nav-item" onClick={handleLogout}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
-                            </svg>
-                            <span>Logout</span>
-                        </div>
-                    </>
-                )}
+                <div className="nav-item active" onClick={() => window.location.href = '/saved'}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>Saved</span>
+                </div>
+                <div className="nav-item" onClick={handleLogout}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </div>
             </div>
         </div>
     );
 };
 
-export default Home;
+export default Saved;

@@ -1,8 +1,52 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import '../../styles/auth.css';
 
 const PartnerRegister = () => {
+    const navigate = useNavigate();
+    const [form, setform] = useState({
+        restaurantName: "",
+        ownerName: "",
+        email: "",
+        password: ""
+    });
+
+    const handleChange = (e) => {
+        setform((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const API_URL = "http://localhost:5000/api/auth/foodpartner/register";
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(API_URL, {
+                RestaurantName: form.restaurantName,
+                ownerName: form.ownerName,
+                email: form.email,
+                password: form.password
+            }, { withCredentials: true });
+
+            const result = response.data;
+            if (!result.success) {
+                toast.error(result.message || "Registration failed");
+                return;
+            }
+
+            toast.success("Partner registration successful!");
+            navigate("/partner/login");
+        } catch (error) {
+            console.error("Registration error:", error);
+            const errorMessage = error.response?.data?.message || "Something went wrong. Please try again.";
+            toast.error(errorMessage);
+        }
+    };
+
     return (
         <div className="auth-container">
             <div className="auth-card">
@@ -11,28 +55,44 @@ const PartnerRegister = () => {
                     <p className="auth-subtitle">Register your restaurant and grow with us</p>
                 </div>
 
-                <form className="auth-form">
+                <form onSubmit={handleSubmit} className="auth-form">
                     <div className="input-group">
                         <label className="input-label" htmlFor="restaurantName">Restaurant Name</label>
-                        <input className="auth-input" type="text" id="restaurantName" placeholder="Enter restaurant name" />
+                        <input
+                            name="restaurantName"
+                            value={form.restaurantName}
+                            onChange={handleChange}
+                            className="auth-input" type="text" id="restaurantName" placeholder="Enter restaurant name" />
                     </div>
 
                     <div className="input-group">
                         <label className="input-label" htmlFor="ownerName">Owner Name</label>
-                        <input className="auth-input" type="text" id="ownerName" placeholder="Enter owner name" />
+                        <input
+                            name="ownerName"
+                            value={form.ownerName}
+                            onChange={handleChange}
+                            className="auth-input" type="text" id="ownerName" placeholder="Enter owner name" />
                     </div>
 
                     <div className="input-group">
                         <label className="input-label" htmlFor="email">Business Email</label>
-                        <input className="auth-input" type="email" id="email" placeholder="Enter business email" />
+                        <input
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            className="auth-input" type="email" id="email" placeholder="Enter business email" />
                     </div>
 
                     <div className="input-group">
                         <label className="input-label" htmlFor="password">Password</label>
-                        <input className="auth-input" type="password" id="password" placeholder="Create a password" />
+                        <input
+                            name="password"
+                            value={form.password}
+                            onChange={handleChange}
+                            className="auth-input" type="password" id="password" placeholder="Create a password" />
                     </div>
 
-                    <button className="auth-button" type="button">Register</button>
+                    <button className="auth-button" type="submit">Register</button>
                 </form>
 
                 <div className="auth-footer">
